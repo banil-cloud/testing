@@ -6,24 +6,29 @@ Password=$(curl -s --user anil123:API_TOKEN https://jenkins.example.com/credenti
 
 echo "ticket creation"
 
-creation="$(time curl -u $Username:$Password -X POST -H "Content-Type: application/json" http://lina-j-loadb-jffut0okjfjc-1151237937.us-east-2.elb.amazonaws.com/rest/api/2/issue/ -d '{
+# Capture the response from the Jira API
+response="$(curl -u $Username:$Password -X POST -H "Content-Type: application/json" http://lina-j-loadb-jffut0okjfjc-1151237937.us-east-2.elb.amazonaws.com/rest/api/2/issue/ -d '{
      "fields": {
-        "project": {
+         "project": {
              "key": "LINA"
          },
-        "issuetype": {
+         "issuetype": {
              "name": "Story"
          },
-        "summary": "testing create ticket",
-        "description": "testing create ticket",
-        "assignee": {
-            "name": "MaheshK"
-        }
+         "summary": "testing create ticket",
+         "description": "testing create ticket",
+         "assignee": {
+             "name": "MaheshK"
+         }
      }
 }' 2>/dev/null)"
 
-KEY="$(echo $creation | grep -o '"key": *"[^"]*"' | grep -o '"[^"]*"$'| sed "s/\"//g")"
-echo "$KEY"
+# Log the response
+echo "API Response: $response"
+
+# Extract the issue key
+KEY="$(echo $response | grep -o '"key": *"[^"]*"' | grep -o '"[^"]*"$' | sed "s/\"//g")"
+echo "Issue Key: $KEY"
 
 echo "*********Issue comment***********"
 time curl --silent -u $Username:$Password -X POST -H "Content-Type: application/json" http://lina-j-loadb-jffut0okjfjc-1151237937.us-east-2.elb.amazonaws.com/rest/api/2/issue/$KEY/comment -d '{
