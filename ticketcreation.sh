@@ -5,7 +5,7 @@ Username=$JIRA_USERNAME
 Password=$JIRA_PASSWORD
 ProjectKey=$1  # Access the project key passed as an argument
 
-echo "$ProjectKey"
+echo "ProjectKey is $ProjectKey"
 echo "ticket creation"
 
 # Capture the response from the Jira API
