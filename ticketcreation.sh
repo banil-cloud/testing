@@ -10,7 +10,7 @@ echo "ticket creation"
 response="$(time curl -v -u $Username:$Password -X POST -H "Content-Type: application/json" http://lina-j-loadb-jffut0okjfjc-1151237937.us-east-2.elb.amazonaws.com/rest/api/2/issue/ -d '{
      "fields": {
         "project": {
-             "key": "$ProjectKey"
+             "key": "LINA"
          },
         "issuetype": {
              "name": "Story"
