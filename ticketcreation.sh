@@ -1,7 +1,8 @@
 #!/bin/bash
 
-Username="XXXX"
-Password="XXXX"
+# Use Jenkins credentials
+Username=$(curl -s --user anil123:API_TOKEN https://jenkins.example.com/credentials/store/system/domain/_/api/json | jq -r '.credentials[0].username')
+Password=$(curl -s --user anil123:API_TOKEN https://jenkins.example.com/credentials/store/system/domain/_/api/json | jq -r '.credentials[0].password')
 
 echo "ticket creation"
 
