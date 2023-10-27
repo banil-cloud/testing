@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Check if a project key is provided as an argument
+if [ -z "$1" ]; then
+    echo "Please provide a project key as an argument."
+    exit 1
+fi
+
+# Capture the provided project key as a variable
+ProjectKey="$1"
 # Use Jenkins credentials
 Username=$JIRA_USERNAME
 Password=$JIRA_PASSWORD
