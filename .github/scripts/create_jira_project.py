@@ -27,13 +27,19 @@ payload = {
     "canned-script": "com.onresolve.scriptrunner.canned.jira.admin.CopyProject",
 }
 
-response = requests.post(
-    api_url,
-    json=payload,
-    headers={"Content-Type": "application/json", "Authorization": auth_header},
-)
+try:
+    response = requests.post(
+        api_url,
+        json=payload,
+        headers={"Content-Type": "application/json", "Authorization": auth_header},
+    )
 
-if response.status_code == 200:
-    print(f"Project '{project_name}' with key '{project_key}' cloned successfully.")
-else:
-    print(f"Failed to clone project. Error: {response.text}")
+    response.raise_for_status()
+
+    if response.status_code == 200:
+        print(f"Project '{project_name}' with key '{project_key}' cloned successfully.")
+    else:
+        print(f"Failed to clone project. Error: {response.text}")
+
+except requests.exceptions.RequestException as e:
+    print(f"Error making the request: {e}")
