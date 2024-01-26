@@ -1,20 +1,19 @@
 import sys
-import os  # Add this line to import the os module
+import os
 import requests
 import base64
-from requests.auth import HTTPBasicAuth
 
 # Check if the required number of command line arguments is provided
-if len(sys.argv) != 4:
+if len(sys.argv) != 3:
     print("Usage: python create_jira_project.py <JIRA_URL> <JIRA_USERNAME> <JIRA_API_TOKEN>")
     sys.exit(1)
 
-jira_url = sys.argv[1]
-username = sys.argv[2]
-api_token = sys.argv[3]
+project_name = sys.argv[1]
+project_key = sys.argv[2]
 
-project_name = os.environ.get("PROJECT_NAME")
-project_key = os.environ.get("PROJECT_KEY")
+jira_url = os.environ.get("JIRA_URL")
+username = os.environ.get("JIRA_USERNAME")
+api_token = os.environ.get("JIRA_API_TOKEN")
 
 # Manually handle authentication by constructing the Authorization header
 auth_header = f"Basic {base64.b64encode(f'{username}:{api_token}'.encode()).decode()}"
