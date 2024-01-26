@@ -1,13 +1,21 @@
-import os
+import sys
 import requests
 from requests.auth import HTTPBasicAuth
 
-jira_url = os.environ.get("http://lb-620059437.us-east-2.elb.amazonaws.com:8080")
-username = os.environ.get("JIRA_USERNAME")
-api_token = os.environ.get("JIRA_API_TOKEN")
+# Check if the required number of command line arguments is provided
+if len(sys.argv) != 4:
+    print("Usage: python create_jira_project.py <JIRA_URL> <JIRA_USERNAME> <JIRA_API_TOKEN>")
+    sys.exit(1)
+
+jira_url = sys.argv[1]
+username = sys.argv[2]
+api_token = sys.argv[3]
 
 project_name = os.environ.get("PROJECT_NAME")
 project_key = os.environ.get("PROJECT_KEY")
+
+# Manually handle authentication by constructing the Authorization header
+auth_header = f"Basic {base64.b64encode(f'{username}:{api_token}'.encode()).decode()}"
 
 api_url = f"{jira_url}/rest/scriptrunner/latest/canned/com.onresolve.scriptrunner.canned.jira.admin.CopyProject"
 
@@ -21,8 +29,7 @@ payload = {
 response = requests.post(
     api_url,
     json=payload,
-    auth=HTTPBasicAuth(username, api_token),
-    headers={"Content-Type": "application/json"},
+    headers={"Content-Type": "application/json", "Authorization": auth_header},
 )
 
 if response.status_code == 200:
