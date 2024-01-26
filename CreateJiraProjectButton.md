@@ -1,1 +1,1 @@
-[![Create Jira Project](https://github.com/your-username/your-repo-name/workflows/Create%20Jira%20Project/badge.svg)](https://github.com/banil-cloud/testing/actions?query=workflow%3A%22Create+Jira+Project%22)
+[![Create Jira Project](https://img.shields.io/badge/Create%20Jira%20Project-blue?style=for-the-badge)](https://github.com/banil-cloud/testing/actions/workflows/create_jira_project.yml?workflow_dispatch=true)
