@@ -1,5 +1,7 @@
 import sys
+import os  # Add this line to import the os module
 import requests
+import base64
 from requests.auth import HTTPBasicAuth
 
 # Check if the required number of command line arguments is provided
