@@ -1,0 +1,38 @@
+name: Create Jira Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: 'Enter the project name'
+        required: true
+      project_key:
+        description: 'Enter the project key'
+        required: true
+
+jobs:
+  create_jira_project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Execute Script
+        run: python .github/scripts/create_jira_project.py
+        env:
+          JIRA_URL: ${{ secrets.JIRA_URL }}
+          JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          PROJECT_NAME: ${{ github.event.inputs.project_name }}
+          PROJECT_KEY: ${{ github.event.inputs.project_key }}
