@@ -23,16 +23,20 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: Set up Environment Variables
+        run: |
+          echo "PROJECT_NAME=${{ github.event.inputs.project_name }}" >> $GITHUB_ENV
+          echo "PROJECT_KEY=${{ github.event.inputs.project_key }}" >> $GITHUB_ENV
+
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests
 
       - name: Execute Script
-        run: python .github/scripts/create_jira_project.py
+        run: |
+          python .github/scripts/create_jira_project.py $JIRA_URL $JIRA_USERNAME $JIRA_API_TOKEN
         env:
           JIRA_URL: ${{ secrets.JIRA_URL }}
           JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-          PROJECT_NAME: ${{ github.event.inputs.project_name }}
-          PROJECT_KEY: ${{ github.event.inputs.project_key }}
